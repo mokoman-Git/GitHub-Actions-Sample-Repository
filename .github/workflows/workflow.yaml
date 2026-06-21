@@ -1,0 +1,26 @@
+name: Java CI with Gradle
+
+on:
+  pull_request:
+    branches:
+      - ["main"]
+
+jobs:
+  build:
+    name: build Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v7
+
+      - name: setup jdk 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
