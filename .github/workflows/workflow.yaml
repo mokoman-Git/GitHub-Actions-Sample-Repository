@@ -2,12 +2,14 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 jobs:
   build:
     name: build Application
     runs-on: ubuntu-latest
+    env:
+      DB_USER: 'postgres'
     steps:
       - name: checkout repository
         uses: actions/checkout@v7
@@ -23,3 +25,6 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
+
+      - name: Echo Env
+        run: echo "DB_USER -> ${DB_USER}"
