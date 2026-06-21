@@ -28,3 +28,9 @@ jobs:
 
       - name: Echo Env
         run: echo "DB_USER -> ${DB_USER}"
+
+      - name: Echo SecretVariable
+        run: echo "SecretVariable -> ${{secrets.MOKOMAN_API_KEY}}"
+
+      - name: Echo Variable
+        run: echo "Variable -> ${{vars.CONSTANT_VARIABLE}}"
