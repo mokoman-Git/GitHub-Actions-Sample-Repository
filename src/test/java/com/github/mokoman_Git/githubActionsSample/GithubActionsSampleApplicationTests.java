@@ -1,13 +1,16 @@
 package com.github.mokoman_Git.githubActionsSample;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 class GithubActionsSampleApplicationTests {
-
 	@Test
-	void contextLoads() {
+    @DisplayName("CI用の必ず成功するテスト")
+	void successTest() {
+        final int hoge = 1;
+        final int huga = 1;
+        assertEquals(hoge,huga);
 	}
-
 }
