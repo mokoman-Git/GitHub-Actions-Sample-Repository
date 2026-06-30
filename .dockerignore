@@ -1,0 +1,28 @@
+# 今回はDockerコンテナ内でビルドしないため、gradleやsrcは転送しない
+
+
+# Git 関連
+.git
+.github
+.gitattributes
+.gitignore
+
+# IntelliJ IDEA の設定
+.idea
+
+# Gradle
+.gradle
+gradle
+build.gradle
+gradlew
+gradlew.bat
+settings.gradle
+
+# ソースコード
+src
+
+# ドキュメント
+HELP.md
+
+# jar以外を無視する書き方
+!build/libs/*.jar

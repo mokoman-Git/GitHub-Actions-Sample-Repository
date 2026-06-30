@@ -4,12 +4,16 @@ on:
   pull_request:
     branches: ['main']
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     name: build Application
     runs-on: ubuntu-latest
-    env:
-      DB_USER: 'postgres'
+#    env:
+#      DB_USER: 'postgres'
     steps:
       - name: checkout repository
         uses: actions/checkout@v7
@@ -20,17 +24,35 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      # Google Cloudのリソースに外部のサービスからアクセスするために一時的なアクセス権を付与する
+      - name: Authentication
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.SERVICE_ACCOUT_EMAIL }}
+
+      - name: Configure Docker for Artifact Registry
+        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
       - name: Build with Gradle
         run: ./gradlew build
 
-      - name: Echo Env
-        run: echo "DB_USER -> ${DB_USER}"
+#      - name: Echo Env
+#        run: echo "DB_USER -> ${DB_USER}"
+#
+#      - name: Echo SecretVariable
+#        run: echo "SecretVariable -> ${{ secrets.MOKOMAN_API_KEY }}"
+#
+#      - name: Echo Variable
+#        run: echo "Variable -> ${{ vars.CONSTANT_VARIABLE }}"
 
-      - name: Echo SecretVariable
-        run: echo "SecretVariable -> ${{ secrets.MOKOMAN_API_KEY }}"
 
-      - name: Echo Variable
-        run: echo "Variable -> ${{ vars.CONSTANT_VARIABLE }}"
+
+      - name: Build Docker image
+        run: docker build -t asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }} .
+
+      - name: Push to ArtifactRegistry
+        run: docker push asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }}
