@@ -14,8 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#      - name: checkout repository
-#        uses: actions/checkout@v7
+      - name: checkout repository
+        uses: actions/checkout@v7
+
+      - name: setup jdk 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
       - name: Authentication
         uses: google-github-actions/auth@v2
@@ -26,6 +32,12 @@ jobs:
       - name: Configure Docker for Artifact Registry
         run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
       - name: Build Docker Image
         run: docker build -t asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }} .
 
@@ -33,7 +45,7 @@ jobs:
         run: docker push asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }}
 
       - name: Deploy to Cloud Run
-        uses:  google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v2
         with:
           service: github-actions-sample-app
           region: asia-northeast1
