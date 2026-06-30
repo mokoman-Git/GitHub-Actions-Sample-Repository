@@ -4,9 +4,9 @@ on:
   pull_request:
     branches: ['main']
 
-permissions:
-  id-token: write
-  contents: read
+#permissions:
+#  id-token: write
+#  contents: read
 
 jobs:
   build:
@@ -24,15 +24,15 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      # Google Cloudのリソースに外部のサービスからアクセスするために一時的なアクセス権を付与する
-      - name: Authentication
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
-          service_account: ${{ secrets.SERVICE_ACCOUT_EMAIL }}
-
-      - name: Configure Docker for Artifact Registry
-        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+#      # Google Cloudのリソースに外部のサービスからアクセスするために一時的なアクセス権を付与する
+#      - name: Authentication
+#        uses: google-github-actions/auth@v2
+#        with:
+#          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER }}
+#          service_account: ${{ secrets.SERVICE_ACCOUT_EMAIL }}
+#
+#      - name: Configure Docker for Artifact Registry
+#        run: gcloud auth configure-docker asia-northeast1-docker.pkg.dev
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -48,8 +48,6 @@ jobs:
 #
 #      - name: Echo Variable
 #        run: echo "Variable -> ${{ vars.CONSTANT_VARIABLE }}"
-
-
 
       - name: Build Docker image
         run: docker build -t asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }} .
