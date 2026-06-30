@@ -9,6 +9,6 @@ public class GithubActionsSampleControllerImpl implements GithubActionsSampleCon
     @GetMapping("/hello")
     @ResponseBody
     public String getHelloWorld(){
-        return "Hello World";
+        return "CD成功!";
     }
 }
