@@ -49,8 +49,8 @@ jobs:
 #      - name: Echo Variable
 #        run: echo "Variable -> ${{ vars.CONSTANT_VARIABLE }}"
 
-      - name: Build Docker image
-        run: docker build -t asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }} .
-
-      - name: Push to ArtifactRegistry
-        run: docker push asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }}
+#      - name: Build Docker image
+#        run: docker build -t asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }} .
+#
+#      - name: Push to ArtifactRegistry
+#        run: docker push asia-northeast1-docker.pkg.dev/project-45aec6c7-f1de-4e00-ab3/my-first-repo/github-actions-sample:${{ github.sha }}
